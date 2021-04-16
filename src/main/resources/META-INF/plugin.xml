@@ -1,0 +1,28 @@
+<idea-plugin>
+    <id>de.local-fwx.intellij-simple-link-bar</id>
+    <name>SimpleLinkBar</name>
+    <vendor email="schult.stephan@gmail.com" url="https://github.com/stephnan">Stephnan</vendor>
+
+    <description><![CDATA[
+    Adding some custom links to Intellijs Menu Bar
+    ]]></description>
+
+    <!-- please see https://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
+         on how to target different products -->
+    <depends>com.intellij.modules.platform</depends>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <!-- Add your extensions here -->
+    </extensions>
+
+    <!-- TODO: define links (actions) in config and add folders -->
+    <actions>
+        <action
+                id="StackOverflow.showLinksAction.ToolsMenu"
+                class="de.localfwx.intellijplugins.linkbar.showLinksAction"
+                text="Ask Question on Stack Overflow"
+                description="Ask a Question on Stack Overflow">
+            <add-to-group group-id="ToolsMenu" anchor="last"/>
+        </action>
+    </actions>
+</idea-plugin>

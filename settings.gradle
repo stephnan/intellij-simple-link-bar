@@ -1,0 +1,2 @@
+rootProject.name = 'intellij-simple-link-bar'
+include 'java'
