@@ -4,15 +4,18 @@ import com.intellij.ide.BrowserUtil;
 import com.intellij.openapi.actionSystem.ActionGroup;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
+import de.localfwx.intellijplugins.linkbar.config.AppSettingsState;
 import org.jetbrains.annotations.NotNull;
 
 public class actionsGenerator extends ActionGroup {
     @NotNull
     @Override
     public AnAction[] getChildren(AnActionEvent anActionEvent) {
+
+
+
         return new AnAction[]{
-                new createLinks("https://www.golem.de", "Golem"),
-                new createLinks("https://www.google.de", "Google")
+                new createLinks(AppSettingsState.getInstance().url, AppSettingsState.getInstance().name),
         };
     }
     class createLinks extends AnAction {

@@ -12,7 +12,11 @@
     <depends>com.intellij.modules.platform</depends>
 
     <extensions defaultExtensionNs="com.intellij">
-        <!-- Add your extensions here -->
+        <applicationService serviceImplementation="de.localfwx.intellijplugins.linkbar.config.AppSettingsState"/>
+        <applicationConfigurable parentId="tools" instance="de.localfwx.intellijplugins.linkbar.config.AppSettingsConfigurable"
+                                 id="de.localfwx.intellijplugins.linkbar.config.AppSettingsConfigurable"
+                                 displayName="Simple Links Plugin"/>
+
     </extensions>
 
     <!-- TODO: define links (actions) in config and add folders -->
