@@ -18,8 +18,6 @@
                                  displayName="Simple Links Plugin"/>
 
     </extensions>
-
-    <!-- TODO: define links (actions) in config and add folders -->
     <actions>
         <group id="SimpleLinksMenu" text="Links" description="Simple Links Menu">
             <add-to-group group-id="MainMenu" anchor="last"/>
