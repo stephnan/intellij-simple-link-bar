@@ -8,6 +8,9 @@ import com.intellij.util.xmlb.XmlSerializerUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Supports storing the application settings in a persistent way.
  * The {@link State} and {@link Storage} annotations define the name of the data and the file name where
@@ -19,8 +22,9 @@ import org.jetbrains.annotations.Nullable;
 )
 public class AppSettingsState implements PersistentStateComponent<AppSettingsState> {
 
-    public String name;
+    public String name = "Nothing here";
     public String url;
+    public Map<String, String> list = new HashMap<>();
 
     public static AppSettingsState getInstance() {
         return ServiceManager.getService(AppSettingsState.class);

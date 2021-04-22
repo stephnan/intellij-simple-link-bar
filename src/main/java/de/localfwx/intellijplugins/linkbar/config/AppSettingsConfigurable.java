@@ -47,6 +47,7 @@ public class AppSettingsConfigurable implements Configurable {
         AppSettingsState settings = AppSettingsState.getInstance();
         settings.name = mySettingsComponent.getNameText();
         settings.url = mySettingsComponent.getLinkText();
+        settings.list.put(mySettingsComponent.getNameText(), mySettingsComponent.getLinkText());
     }
 
     @Override

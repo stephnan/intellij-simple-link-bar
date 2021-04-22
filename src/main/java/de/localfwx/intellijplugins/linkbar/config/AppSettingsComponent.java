@@ -3,7 +3,6 @@ package de.localfwx.intellijplugins.linkbar.config;
 import com.intellij.ui.components.JBLabel;
 import com.intellij.ui.components.JBTextField;
 import com.intellij.util.ui.FormBuilder;
-import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
 
