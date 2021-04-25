@@ -52,14 +52,14 @@ public class AppSettingsConfigurable implements Configurable {
 
     @Override
     public void reset() {
-        AppSettingsState settings = AppSettingsState.getInstance();
-        mySettingsComponent.setNameText(settings.name);
-        mySettingsComponent.setLinkText(settings.url);
+        mySettingsComponent.setNameText("");
+        mySettingsComponent.setLinkText("");
     }
 
     @Override
     public void disposeUIResources() {
         mySettingsComponent = null;
     }
+
 
 }

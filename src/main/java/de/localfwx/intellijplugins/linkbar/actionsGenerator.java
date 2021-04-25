@@ -21,6 +21,7 @@ public class actionsGenerator extends ActionGroup {
         actions.toArray(actionArray);
         return actionArray;
     }
+
     class createLinks extends AnAction {
         private String url;
 
@@ -29,6 +30,7 @@ public class actionsGenerator extends ActionGroup {
             this.url = url;
 
         }
+
         @Override
         public void actionPerformed(@NotNull AnActionEvent anActionEvent) {
             BrowserUtil.browse(url);
