@@ -37,23 +37,20 @@ public class AppSettingsConfigurable implements Configurable {
     @Override
     public boolean isModified() {
         AppSettingsState settings = AppSettingsState.getInstance();
-        boolean modified = !mySettingsComponent.getNameText().equals(settings.name);
-        modified |= mySettingsComponent.getLinkText() != settings.url;
-        return modified;
+        return settings.modified;
     }
 
     @Override
     public void apply() {
-        AppSettingsState settings = AppSettingsState.getInstance();
-        settings.name = mySettingsComponent.getNameText();
-        settings.url = mySettingsComponent.getLinkText();
-        settings.list.put(mySettingsComponent.getNameText(), mySettingsComponent.getLinkText());
+        resetModificationState();
+        reset();
     }
 
     @Override
     public void reset() {
+        resetModificationState();
         mySettingsComponent.setNameText("");
-        mySettingsComponent.setLinkText("");
+        mySettingsComponent.setUrlText("");
     }
 
     @Override
@@ -61,5 +58,9 @@ public class AppSettingsConfigurable implements Configurable {
         mySettingsComponent = null;
     }
 
+    private void resetModificationState() {
+        AppSettingsState settings = AppSettingsState.getInstance();
+        settings.modified = false;
+    }
 
 }

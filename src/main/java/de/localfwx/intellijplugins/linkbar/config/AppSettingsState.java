@@ -8,7 +8,6 @@ import com.intellij.util.xmlb.XmlSerializerUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -22,9 +21,8 @@ import java.util.Map;
 )
 public class AppSettingsState implements PersistentStateComponent<AppSettingsState> {
 
-    public String name = "Nothing here";
-    public String url;
-    public Map<String, String> list = new HashMap<>();
+    public Map<String, String> list;
+    public boolean modified = false;
 
     public static AppSettingsState getInstance() {
         return ServiceManager.getService(AppSettingsState.class);
@@ -39,6 +37,8 @@ public class AppSettingsState implements PersistentStateComponent<AppSettingsSta
     @Override
     public void loadState(@NotNull AppSettingsState state) {
         XmlSerializerUtil.copyBean(state, this);
+
     }
+
 
 }

@@ -4,64 +4,58 @@ import com.intellij.ui.components.JBLabel;
 import com.intellij.ui.components.JBTextField;
 import com.intellij.ui.table.JBTable;
 import com.intellij.util.ui.FormBuilder;
+import de.localfwx.intellijplugins.linkbar.model.TableListSelectionListener;
+import de.localfwx.intellijplugins.linkbar.model.TableModel;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
-import javax.swing.table.AbstractTableModel;
 import javax.swing.table.JTableHeader;
-import java.util.Map;
 
 /**
  * Supports creating and managing a {@link JPanel} for the Settings Dialog.
  */
 public class AppSettingsComponent {
 
-    private final JPanel myMainPanel;
-    private final JBTextField myNameText = new JBTextField();
-    private final JBTextField myLinkText = new JBTextField();
+    private final JPanel mainPanel;
+    private final JBTextField name = new JBTextField();
+    private final JBTextField url = new JBTextField();
     private final JButton buttonAdd = new JButton();
     private final JButton buttonDelete = new JButton();
     private JBTable table;
     private JTableHeader header;
+    private TableModel tableModel;
+    private AppSettingsState settings;
 
     public AppSettingsComponent() {
 
-        AppSettingsState settings = AppSettingsState.getInstance();
-        TableModel tableModel = new TableModel(settings.list);
+        settings = AppSettingsState.getInstance();
+        tableModel = new TableModel(settings.list);
+        table = new JBTable(tableModel);
+        header = table.getTableHeader();
+
         buttonAdd.setText("Add");
         buttonDelete.setText("Delete");
 
-        table = new JBTable(tableModel);
-        header = table.getTableHeader();
-        table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        table.getTableHeader().setReorderingAllowed(false);
-        table.setRowSelectionAllowed(true);
-        table.setShowColumns(true);
-
         buttonAdd.addActionListener(e -> {
-            table.clearSelection();
-            settings.list.put(getNameText(), getLinkText());
-            tableModel.fireTableDataChanged();
-            table.repaint();
-            resetTextBoxes();
+            if (isValid(getNameText(), getUrlText())) {
+                settings.list.put(getNameText(), getUrlText());
+                handleChanges();
+            }
+
         });
         buttonDelete.addActionListener(e -> {
-            settings.list.remove(getNameText(), getLinkText());
-            tableModel.fireTableDataChanged();
-            table.repaint();
-            table.clearSelection();
-            resetTextBoxes();
+            if (isValid(getNameText(), getUrlText())) {
+                settings.list.remove(getNameText(), getUrlText());
+                handleChanges();
+            }
         });
 
-        table.getSelectionModel().addListSelectionListener(event -> {
-            myNameText.setText(table.getValueAt(table.getSelectedRow(), 0).toString());
-            myLinkText.setText(table.getValueAt(table.getSelectedRow(), 1).toString());
-        });
+        table.getSelectionModel().addListSelectionListener(new TableListSelectionListener(this));
 
 
-        myMainPanel = FormBuilder.createFormBuilder()
-                .addLabeledComponent(new JBLabel("Enter displayname: "), myNameText, 1, false)
-                .addLabeledComponent(new JBLabel("Enter URL: "), myLinkText, 1, false)
+        mainPanel = FormBuilder.createFormBuilder()
+                .addLabeledComponent(new JBLabel("Enter name: "), name, 1, false)
+                .addLabeledComponent(new JBLabel("Enter url: "), url, 1, false)
                 .addLabeledComponent(buttonAdd, buttonDelete)
                 .addSeparator()
                 .addComponent(header, 1)
@@ -70,88 +64,48 @@ public class AppSettingsComponent {
                 .getPanel();
     }
 
+    private boolean isValid(String nameText, String urlText) {
+        return !nameText.isBlank() && !nameText.isEmpty() && !urlText.isEmpty() && !urlText.isBlank();
+    }
+
+    private void handleChanges() {
+        settings.modified = true;
+        tableModel.fireTableDataChanged();
+        table.repaint();
+        resetTextBoxes();
+    }
+
     private void resetTextBoxes() {
-        myNameText.setText("");
-        myLinkText.setText("");
+        name.setText("");
+        url.setText("");
     }
 
     public JPanel getPanel() {
-        return myMainPanel;
+        return mainPanel;
     }
 
     public JComponent getPreferredFocusedComponent() {
-        return myNameText;
+        return name;
     }
 
     public String getNameText() {
-        return myNameText.getText();
+        return name.getText();
     }
 
     public void setNameText(@NotNull String newText) {
-        myNameText.setText(newText);
+        name.setText(newText);
     }
 
-    public String getLinkText() {
-        return myLinkText.getText();
+    public String getUrlText() {
+        return url.getText();
     }
 
-    public void setLinkText(@NotNull String newText) {
-        myLinkText.setText(newText);
+    public void setUrlText(@NotNull String newText) {
+        url.setText(newText);
     }
 
-}
-
-class TableModel extends AbstractTableModel {
-
-    String[] columnNames = {"Name", "URL"};
-
-    String[][] data;
-
-    public TableModel(Map<String, String> list) {
-        getData(list);
-    }
-
-    @Override
-    public int getRowCount() {
-        return data.length;
-    }
-
-    @Override
-    public int getColumnCount() {
-        return columnNames.length;
-    }
-
-    @Override
-    public Object getValueAt(int rowIndex, int columnIndex) {
-        try {
-            return data[rowIndex][columnIndex];
-        } catch (ArrayIndexOutOfBoundsException e) {
-
-        }
-        //FIXME
-        return data[0][0];
-    }
-
-    @Override
-    public String getColumnName(int column) {
-        return columnNames[column];
-    }
-
-    public String[][] getData(Map<String, String> list) {
-        data = new String[list.size()][columnNames.length];
-        int i = 0;
-        for (Map.Entry<String, String> stringStringEntry : list.entrySet()) {
-            data[i][0] = stringStringEntry.getKey();
-            data[i][1] = stringStringEntry.getValue();
-            i++;
-        }
-        return data;
-    }
-
-    @Override
-    public void fireTableDataChanged() {
-        AppSettingsState settings = AppSettingsState.getInstance();
-        getData(settings.list);
+    public JBTable getTable() {
+        return table;
     }
 }
 
