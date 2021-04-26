@@ -9,7 +9,7 @@ compileJava {
     targetCompatibility = 11
 }
 group 'de.local-fwx'
-version '0.0.3'
+version '0.0.4'
 
 repositories {
     mavenCentral()
@@ -25,8 +25,9 @@ patchPluginXml {
       <b>Fixes</b> <br>
       * NullPointerException while deleteing/adding components <br>
       * Validation of input <br>
+      * Handles orphaned entries created by older versions <br>
       <b>Changes</b> <br>
-      * Restructures method calls
-      * Simplifies code
+      * Restructures method calls <br>
+      * Simplifies code <br>
       """
 }

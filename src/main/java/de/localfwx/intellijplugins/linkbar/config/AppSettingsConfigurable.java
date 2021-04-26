@@ -1,6 +1,7 @@
 package de.localfwx.intellijplugins.linkbar.config;
 
 import com.intellij.openapi.options.Configurable;
+import org.apache.commons.lang.StringUtils;
 import org.jetbrains.annotations.Nls;
 import org.jetbrains.annotations.Nullable;
 
@@ -43,7 +44,13 @@ public class AppSettingsConfigurable implements Configurable {
     @Override
     public void apply() {
         resetModificationState();
+        cleanupOrphanedEntries();
         reset();
+    }
+
+    private void cleanupOrphanedEntries() {
+        AppSettingsState settings = AppSettingsState.getInstance();
+        settings.list.entrySet().removeIf(e -> StringUtils.isBlank(e.getKey()));
     }
 
     @Override
