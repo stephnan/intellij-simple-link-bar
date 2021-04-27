@@ -1,4 +1,4 @@
-# intellij-simple-link-bar
+# IntelliJ Simple Links Plugin
 
 # Installation
 Install via downloading the .zip file and use IntelliJ Settings > Plugins > Install Plugin 
